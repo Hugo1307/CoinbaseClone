@@ -13,8 +13,10 @@ class LineChartSeries {
 class LineChart extends StatelessWidget {
   final String id;
   final Color chartColor;
+  final int dataSamples;
+  final int maxDelta;
 
-  const LineChart(this.id, this.chartColor, {Key? key}) : super(key: key);
+  const LineChart(this.id, this.chartColor, {Key? key, this.dataSamples = 20, this.maxDelta = 4000}) : super(key: key);
 
   _generateRandomData(int dataSamples, int maxDelta, int baseValue) {
     Random rng = Random();
@@ -28,7 +30,7 @@ class LineChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<LineChartSeries> data = _generateRandomData(20, 5000, 4000);
+    List<LineChartSeries> data = _generateRandomData(dataSamples, 5000, maxDelta);
 
     List<charts.Series<LineChartSeries, int>> series = [
       charts.Series(

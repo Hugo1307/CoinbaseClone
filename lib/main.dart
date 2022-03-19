@@ -33,7 +33,7 @@ class _MainAppContainerState extends State<MainAppContainer> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: TopBar(),
+      appBar: TopBar(const Icon(Icons.menu), () => {}),
       body: AppBody(child: _widgetOptions.elementAt(_selectedItemIndex)),
       bottomNavigationBar: BottomNavBar(callbackOnUpdate: refreshChild),
     );
@@ -41,20 +41,25 @@ class _MainAppContainerState extends State<MainAppContainer> {
 }
 
 class TopBar extends AppBar {
-  TopBar({Key? key})
+
+  final Icon icon;
+  final Function leftIconPressed; 
+
+  TopBar(this.icon, this.leftIconPressed, {Key? key})
       : super(
             key: key,
             iconTheme: const IconThemeData(
               color: Colors.black,
             ),
+            automaticallyImplyLeading: false,
             backgroundColor: ThemeData.light().scaffoldBackgroundColor,
             elevation: 0.0,
             actions: [
               Container(
                 margin: const EdgeInsets.only(left: 10),
                 child: IconButton(
-                  icon: const Icon(Icons.menu),
-                  onPressed: () => {},
+                  icon: icon,
+                  onPressed: () => leftIconPressed()
                 ),
               ),
               const Spacer(),

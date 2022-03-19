@@ -1,4 +1,6 @@
 import 'package:coinbase_clone/charts_utils.dart';
+import 'package:coinbase_clone/currency_details.dart';
+import 'package:coinbase_clone/utils.dart';
 import 'package:flutter/material.dart';
 
 class DashboardBody extends StatelessWidget {
@@ -161,16 +163,23 @@ class InterestsList extends StatelessWidget {
             ListView(
               shrinkWrap: true,
               padding: const EdgeInsets.only(top: 10),
-              children: const [
-                CurrencyListItem('Bitcoin', 'BTC', 35643.82, -3.54,
-                    currencyImagePath: 'assets/images/BC_Logo.png'),
+              children: [
                 CurrencyListItem(
-                  'Ethereum',
-                  'ETH',
-                  1643.82,
-                  -0.54,
-                  currencyImagePath: 'assets/images/ETH_Logo.png',
-                  currencyColor: Color.fromARGB(255, 98, 126, 232),
+                  Currency(
+                    'Bitcoin',
+                    'BTC',
+                    35643.82,
+                    -3.54,
+                    'assets/images/BC_Logo.png',
+                    const Color.fromARGB(255, 224, 90, 28))),
+                CurrencyListItem(
+                  Currency(
+                      'Ethereum',
+                      'ETH',
+                      1643.82,
+                      -0.54,
+                      'assets/images/ETH_Logo.png',
+                      const Color.fromARGB(255, 98, 126, 232)),
                 )
               ],
             ),
@@ -180,19 +189,9 @@ class InterestsList extends StatelessWidget {
 }
 
 class CurrencyListItem extends StatefulWidget {
-  final String currencyName;
-  final String currencyAlias;
-  final double currentPrice;
-  final double variation;
-  final String currencyImagePath;
-  final Color currencyColor;
+  final Currency currency;
 
-  const CurrencyListItem(
-      this.currencyName, this.currencyAlias, this.currentPrice, this.variation,
-      {this.currencyImagePath = 'assets/images/BC_Logo.png',
-      this.currencyColor = const Color.fromARGB(255, 224, 90, 28),
-      Key? key})
-      : super(key: key);
+  const CurrencyListItem(this.currency, {Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _CurrencyListItemState();
@@ -204,35 +203,43 @@ class _CurrencyListItemState extends State<CurrencyListItem> {
     return ListTile(
         horizontalTitleGap: 20,
         contentPadding: EdgeInsets.zero,
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => CurrencyDetailsAppContainer(widget.currency)),
+          );
+        },
         leading: SizedBox(
             width: 35,
             height: 35,
-            child: Image.asset(widget.currencyImagePath)),
+            child: Image.asset(widget.currency.currencyImagePath)),
         title: Container(
             margin: const EdgeInsets.only(bottom: 5),
-            child: Text(widget.currencyName,
+            child: Text(widget.currency.currencyName,
                 style: const TextStyle(
                     fontWeight: FontWeight.bold, fontSize: 17))),
-        subtitle: Text(widget.currencyAlias,
+        subtitle: Text(widget.currency.currencyAlias,
             style: const TextStyle(fontWeight: FontWeight.w300, fontSize: 15)),
         trailing: Row(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               SizedBox(
-                child: LineChart(widget.currencyAlias, widget.currencyColor),
+                child: LineChart(widget.currency.currencyAlias,
+                    widget.currency.currencyColor),
                 height: 50,
                 width: 80,
               ),
               Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
                 Text(
-                  widget.currentPrice.toString() + ' €',
+                  widget.currency.currentPrice.toString() + ' €',
                   style: const TextStyle(fontSize: 17),
                 ),
                 Container(
                     margin: const EdgeInsets.only(top: 2),
                     child: Text(
-                      widget.variation.toString() + '%',
+                      widget.currency.variation.toString() + '%',
                       style: const TextStyle(
                           fontSize: 17,
                           color: Color.fromARGB(255, 206, 32, 47)),

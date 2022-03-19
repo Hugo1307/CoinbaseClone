@@ -1,6 +1,14 @@
-class Currency {
-  String name;
-  double value;
+import 'package:flutter/material.dart';
 
-  Currency(this.name, this.value);
+class Currency {
+  
+  final String currencyName;
+  final String currencyAlias;
+  final double currentPrice;
+  final double variation;
+  final String currencyImagePath;
+  final Color currencyColor;
+
+  Currency(this.currencyName, this.currencyAlias, this.currentPrice, this.variation, this.currencyImagePath, this.currencyColor);
+  
 }
