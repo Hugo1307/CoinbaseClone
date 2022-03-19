@@ -70,7 +70,7 @@ class TopBar extends AppBar {
                   child: const Text(
                     'Receber 9.0€',
                     style: TextStyle(
-                        color: Color.fromARGB(255, 0, 96, 246),
+                        color: Color.fromARGB(255, 0, 82, 254),
                         fontWeight: FontWeight.bold),
                   ),
                 ),
